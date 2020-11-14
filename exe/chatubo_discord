@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+require "chatubo/bots/syake"
+require 'discordrb'
+require 'dotenv'
+
+extractor = SplatoonStageInfoExtractor.new
+
+Dotenv.load
+
+bot = Discordrb::Commands::CommandBot.new(
+    token: ENV["BOT_TOKEN"],
+    client_id: ENV["CLIENT_ID"],
+    prefix: '/'
+)
+
+
+bot.command :syake do |event, *args|
+  start = args[1]
+
+  if args.size == 0
+    extractor.fetch_coop_info!
+    extractor.fetch_battle_info!
+
+    coop = extractor.get_coop_info_detail
+    info = coop + "\n" + [:nawabari, :gachi, :league].map { |type| extractor.get_battle_info_detail(type, start) }.join("\n")
+    event.send_message(info)
+    return
+  end
+
+  if args.include?("鮭") || args.include?("シャケ") || args.include?("syake")
+    extractor.fetch_coop_info!
+    event.send_message extractor.get_coop_info_detail
+  else
+    extractor.fetch_battle_info!
+    if args.include?("ガチ") || args.include?("gachi")
+      event.send_message extractor.get_battle_info_detail(:gachi, start)
+    elsif args.include?("リグマ") || args.include?("league")
+      event.send_message extractor.get_battle_info_detail(:league, start)
+    elsif args.include?("ナワバリ") || args.include?("nawabari") || args.include?("縄張り")
+      event.send_message extractor.get_battle_info_detail(:nawabari, start)
+    end
+  end
+end
+
+bot.run
