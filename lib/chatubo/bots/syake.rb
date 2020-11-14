@@ -29,10 +29,10 @@ class SplatoonStageInfoExtractor
     coop_weapons = @coop_info.result[0].weapons
 
     <<~INFO
-    [鮭]
-    時間: #{coop_start.month}月#{coop_start.day}日 #{coop_start.hour}:00 ~ #{coop_end.month}月#{coop_end.day}日 #{coop_end.hour}時
-    #{coop_stage["name"]}
-    #{coop_weapons.map { |w| w["name"] }.join ', '}
+      [鮭]
+      時間: #{coop_start.month}月#{coop_start.day}日 #{coop_start.hour}:00 ~ #{coop_end.month}月#{coop_end.day}日 #{coop_end.hour}時
+      #{coop_stage["name"]}
+      #{coop_weapons.map { |w| w["name"] }.join ', '}
     INFO
   end
 
@@ -47,22 +47,22 @@ class SplatoonStageInfoExtractor
     case battle_type
     when :nawabari
       "[ナワバリ]\n" + @battle_info.result.regular.splatoon_time_convert(start_time).map { |b| <<~NAWABARI
-                ステージ：#{b["maps"].join(',')}
-                時間：#{Time.parse(b["start"]).hour}:00 ~
+        ステージ：#{b["maps"].join(',')}
+        時間：#{Time.parse(b["start"]).hour}:00 ~
       NAWABARI
       }.join("\n")
     when :league
-      "[リグマ]\n" + @battle_info.result.regular.splatoon_time_convert(start_time).map { |b| <<~LEAGUE
-                ステージ：#{b["maps"].join(",")}
-                ルール：#{b["rule"]}
-                時間：#{Time.parse(b["start"]).hour}:00 ~
+      "[リグマ]\n" + @battle_info.result.league.splatoon_time_convert(start_time).map { |b| <<~LEAGUE
+        ステージ：#{b["maps"].join(",")}
+        ルール：#{b["rule"]}
+        時間：#{Time.parse(b["start"]).hour}:00 ~
       LEAGUE
       }.join("\n")
     when :gachi
       "[ガチマ]\n" + @battle_info.result.gachi.splatoon_time_convert(start_time).map { |b| <<~GACHI
-                ステージ：#{b["maps"].join(",")}
-                ルール：#{b["rule"]}
-                時間：#{Time.parse(b["start"]).hour}:00 ~
+        ステージ：#{b["maps"].join(",")}
+        ルール：#{b["rule"]}
+        時間：#{Time.parse(b["start"]).hour}:00 ~
       GACHI
       }.join("\n")
     end
