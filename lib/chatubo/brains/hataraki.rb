@@ -11,7 +11,7 @@ class Hataraki
   ]
 
   CRITERIA_DAYS = [
-      Date.parse('2020-10-17'),
+      Date.parse('2020-10-18'),
   ]
 
   def shift_of_day(target_date)

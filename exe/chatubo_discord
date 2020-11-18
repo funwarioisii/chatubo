@@ -49,7 +49,7 @@ bot.command :hataraki do |event, *args|
   if args.size == 0 || args.include?('help')
     event.send_message "/hataraki [target_date]; target_date: `yyyy-mm-dd`"
   else
-    target_date = args[1]
+    target_date = args[0]
     event.send_message hataraki.get_shift_pattern(target_date)
   end
 end
